@@ -28,12 +28,12 @@ $designWidth : 750; //写scss之前，必须要先定义designWidth。
 			justify-content: center;
 
 			h4 {
-				font-size: 36px;
+				font-size: px2rem(36);
 				color: #111;
 			}
 
 			.address {
-				font-size: 28px;
+				font-size: px2rem(28);
 				color: #555;
 			}
 		}
