@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>演示</title>
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./lib/hotcss.js"></script>
+</head>
+
+<body>
+	<div class="wrap" id="store-list"></div>
+
+	<script>
+		var data = [
+			{
+				storeName: 'xxx',
+				address: '广东，广州',
+				logo: './img/01.jpg',
+			}
+		];
+
+		var storeList = document.getElementById('store-list');
+
+		storeList.innerHTML = renderList(data);
+
+		// 渲染园馆列表
+		function renderList(data) {
+			var ret = '';
+			data.forEach(function (item) {
+				ret += '<div class="item">'
+					+ '<div class="logo-wrap">'
+					+ '    <img src="' + item.logo + '" width="100%" height="100%" alt="">'
+					+ '</div>'
+					+ '<div class="content">'
+					+ '    <h4>' + item.storeName + '</h4>'
+					+ '    <p class="address">' + item.address + '</p>'
+					+ '</div>'
+					+ '</div>';
+			});
+			return ret;
+		}
+
+	</script>
+</body>
+
+</html>

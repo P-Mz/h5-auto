@@ -1,0 +1,42 @@
+@import 'px2rem'; //第一步先把px2rem导入
+@import 'base';
+
+$designWidth : 750; //写scss之前，必须要先定义designWidth。
+
+
+.wrap {
+
+	.item {
+		display: flex;
+		align-items: center;
+		height: px2rem(180);
+
+		.logo-wrap {
+			width: px2rem(120);
+			height: px2rem(120);
+			margin: 0 px2rem(50);
+			border-radius: 50%;
+			overflow: hidden;
+		}
+
+		.content {
+			height: 100%;
+			flex: 1;
+			border-bottom: 1px solid #efefef;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			h4 {
+				font-size: 36px;
+				color: #111;
+			}
+
+			.address {
+				font-size: 28px;
+				color: #555;
+			}
+		}
+
+	}
+}
