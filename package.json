@@ -14,12 +14,14 @@
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
+    "gulp-bro": "^2.0.0",
     "gulp-browserify": "^0.5.1",
     "gulp-connect": "^5.7.0",
     "gulp-sass": "^4.0.2",
     "gulp-uglify": "^3.0.2"
   },
   "dependencies": {
+    "hotcss": "^2.2.1",
     "jquery": "^3.4.1"
   }
 }

@@ -1,6 +1,6 @@
-import '../commom/lib/hotcss';
-import $ from 'jquery';
-import picker from '../commom/lib/picker';
+require('hotcss');
+const $ = require('jquery');
+const picker = require('./common/lib/picker');
 
 const p1 = picker([
     [
@@ -9,7 +9,9 @@ const p1 = picker([
         { name: '高级', id: '' },
         { name: '终级', id: '' },
     ]
-]);
+], data => {
+    console.log(data);
+});
 
 
 $('#btn').on('click', () => {

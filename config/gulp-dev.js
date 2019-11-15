@@ -23,19 +23,19 @@ function serve(cb) {
         process.stdout.write('\033[2J');
         process.stdout.write('\033[0f');
         console.log('\x1B[34m%s\x1B[39m', `\r\nApp running at:\r\n`);
-        console.log('\x1B[34m%s\x1B[39m', `    - Local:    http://localhost:${serverConfig.port}/pages`);
+        console.log('\x1B[34m%s\x1B[39m', `    - Local:    http://localhost:${serverConfig.port}`);
     });
     cb();
 }
 
 // 监听
-watch('src/pages/**/*.scss')
+watch(['src/index.scss', 'src/pages/**/*.scss'])
     .on('change', buildReload(sass));
 
-watch('src/pages/**/*.html')
+watch(['src/index.html', 'src/pages/**/*.html'])
     .on('change', buildReload(html));
 
-watch('src/pages/**/*.js')
+watch(['src/index.js', 'src/pages/**/*.js'])
     .on('change', buildReload(js));
 
 watch('src/**/*.@(jpg|png|gif)')

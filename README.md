@@ -3,4 +3,4 @@
 
 ### scss编译, 兼容前缀添加
 
-### es6转换, import 导入, export 导出
+### es6转换, require 导入, module.export 导出

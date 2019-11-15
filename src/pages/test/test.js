@@ -1,2 +1,1 @@
-import '../../commom/lib/hotcss';
-import $ from 'jquery';
+const $ = require('jquery');
