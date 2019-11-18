@@ -6,6 +6,9 @@ const gulpBabel = require('gulp-babel');
 const gulpBro = require('gulp-bro');
 const gulpUglify = require('gulp-uglify');
 const del = require('del');
+const through2 = require('through2');
+const path = require('path');
+const fs = require('fs');
 
 // sass 编译
 function sass() {
@@ -20,6 +23,22 @@ function sass() {
 // html移动
 function html() {
     return src(['src/index.html', 'src/pages/**/*.html'], { base: 'src' })
+        .pipe(through2.obj(function (chunk, enc, callback) {
+            let fileStr = chunk.contents.toString();
+            let { name, dir } = path.parse(chunk.path);
+
+            if (fs.existsSync(path.join(dir, name + '.scss'))) {
+                fileStr = fileStr.replace('</head>', `<link rel="stylesheet" href="./${name}.css">\n</head>`);
+            }
+
+            if (fs.existsSync(path.join(dir, name + '.js'))) {
+                fileStr = fileStr.replace('</body>', `<script src="./${name}.js"></script>\n</body>`);
+            }
+
+            chunk.contents = Buffer.from(fileStr);
+            this.push(chunk);
+            callback();
+        }))
         .pipe(dest('dist'));
 }
 
