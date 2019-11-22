@@ -2,12 +2,7 @@
 const { series, watch } = require('gulp');
 const gulpConnect = require('gulp-connect');
 const { clean, images, js, html, sass } = require('./gulp-base');
-
-const serverConfig = {
-    port: 3000,
-    root: 'dist',
-    livereload: true
-};
+const config = require(`${process.cwd()}/config.js`);
 
 // 输出加 热更新
 function buildReload(fn) {
@@ -19,11 +14,11 @@ function buildReload(fn) {
 
 // 端口输出配置
 function serve(cb) {
-    gulpConnect.server(serverConfig, () => {
+    gulpConnect.server(config.serverOptions, () => {
         process.stdout.write('\033[2J');
         process.stdout.write('\033[0f');
         console.log('\x1B[34m%s\x1B[39m', `\r\nApp running at:\r\n`);
-        console.log('\x1B[34m%s\x1B[39m', `    - Local:    http://localhost:${serverConfig.port}`);
+        console.log('\x1B[34m%s\x1B[39m', `    - Local:    http://localhost:${config.serverOptions.port}`);
     });
     cb();
 }

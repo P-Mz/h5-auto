@@ -10,15 +10,16 @@
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
+    "autoprefixer": "^9.7.2",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
     "gulp-bro": "^2.0.0",
-    "gulp-browserify": "^0.5.1",
     "gulp-connect": "^5.7.0",
+    "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-uglify": "^3.0.2",
+    "postcss-pxtorem": "^4.0.1",
     "through2": "^3.0.1"
   },
   "dependencies": {

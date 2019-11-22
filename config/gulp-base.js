@@ -1,7 +1,7 @@
 
 const { src, dest } = require('gulp');
 const gulpScss = require('gulp-sass');
-const autoprefixer = require('gulp-autoprefixer');
+const autoprefixer = require('autoprefixer');
 const gulpBabel = require('gulp-babel');
 const gulpBro = require('gulp-bro');
 const gulpUglify = require('gulp-uglify');
@@ -9,14 +9,19 @@ const del = require('del');
 const through2 = require('through2');
 const path = require('path');
 const fs = require('fs');
+const postcss = require('gulp-postcss');
+const postcssPxtorem = require('postcss-pxtorem');
+const config = require(`${process.cwd()}/config.js`);
+
 
 // sass 编译
 function sass() {
     return src(['src/index.scss', 'src/pages/**/*.scss'], { base: 'src' })
         .pipe(gulpScss({ outputStyle: 'compressed' }))
-        .pipe(autoprefixer({
-            borwsers: ['last 2 versions']
-        }))
+        .pipe(postcss([
+            autoprefixer(config.autoprefixerOptions),
+            postcssPxtorem(config.postcssOptions)
+        ]))
         .pipe(dest('dist'));
 }
 
