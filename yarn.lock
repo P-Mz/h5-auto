@@ -2808,11 +2808,6 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.npm.taobao.org/hosted-git-info/download/hosted-git-info-2.8.5.tgz?cache=0&sync_timestamp=1570493686863&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhosted-git-info%2Fdownload%2Fhosted-git-info-2.8.5.tgz#759cfcf2c4d156ade59b0b2dfabddc42a6b9c70c"
   integrity sha1-dZz88sTRVq3lmwst+r3cQqa5xww=
 
-hotcss@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npm.taobao.org/hotcss/download/hotcss-2.2.1.tgz#264bebe1df547015a5cdaeb2e6062bf9316f59cf"
-  integrity sha1-Jkvr4d9UcBWlza6y5gYr+TFvWc8=
-
 htmlescape@^1.1.0:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/htmlescape/download/htmlescape-1.1.1.tgz#3a03edc2214bca3b66424a3e7959349509cb0351"

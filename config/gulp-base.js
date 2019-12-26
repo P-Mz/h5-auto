@@ -33,12 +33,16 @@ function html() {
             let { name, dir } = path.parse(chunk.path);
 
             if (fs.existsSync(path.join(dir, name + '.scss'))) {
-                fileStr = fileStr.replace('</head>', `<link rel="stylesheet" href="./${name}.css">\n</head>`);
+                fileStr = fileStr.replace('</head>', `<link rel="stylesheet" href="./${name}.css"></head>`);
             }
 
             if (fs.existsSync(path.join(dir, name + '.js'))) {
-                fileStr = fileStr.replace('</body>', `<script src="./${name}.js"></script>\n</body>`);
+                fileStr = fileStr.replace('</body>', `<script src="./${name}.js"></script></body>`);
             }
+
+            // 放入 hotcss, 用于适配
+            const file = fs.readFileSync(`${process.cwd()}\\src\\common\\lib\\hotcss.js`);
+            fileStr = fileStr.replace('</head>', `<script>${file.toString()}</script></head>`);
 
             chunk.contents = Buffer.from(fileStr);
             this.push(chunk);

@@ -1,4 +1,3 @@
-require('hotcss');
 const $ = require('jquery');
 const picker = require('./common/lib/picker');
 
