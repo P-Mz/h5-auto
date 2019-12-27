@@ -11,8 +11,9 @@ const path = require('path');
 const fs = require('fs');
 const postcss = require('gulp-postcss');
 const postcssPxtorem = require('postcss-pxtorem');
+const gulpRev = require('gulp-rev');
 const config = require(`${process.cwd()}/config.js`);
-
+const getNodeModule = require('./lib/get-node-module');
 
 // sass 编译
 function sass() {
@@ -22,6 +23,7 @@ function sass() {
             autoprefixer(config.autoprefixerOptions),
             postcssPxtorem(config.postcssOptions)
         ]))
+        .pipe(gulpRev())
         .pipe(dest('dist'));
 }
 
@@ -30,19 +32,26 @@ function html() {
     return src(['src/index.html', 'src/pages/**/*.html'], { base: 'src' })
         .pipe(through2.obj(function (chunk, enc, callback) {
             let fileStr = chunk.contents.toString();
-            let { name, dir } = path.parse(chunk.path);
+            const perentPath = path.resolve(chunk.path, '..').replace('src', 'dist');
+            const files = fs.readdirSync(perentPath);
+            const findCss = files.find(item => /.css$/.test(item));
+            const findJs = files.find(item => /.js$/.test(item));
 
-            if (fs.existsSync(path.join(dir, name + '.scss'))) {
-                fileStr = fileStr.replace('</head>', `<link rel="stylesheet" href="./${name}.css"></head>`);
+            // 加入css
+            if (findCss) {
+                fileStr = fileStr.replace('</head>', `<link rel="stylesheet" href="./${findCss}"></head>`);
             }
 
-            if (fs.existsSync(path.join(dir, name + '.js'))) {
-                fileStr = fileStr.replace('</body>', `<script src="./${name}.js"></script></body>`);
+            // 加入js
+            if (findJs) {
+                fileStr = fileStr.replace('</body>', `<script src="./${findJs}"></script></body>`);
             }
 
-            // 放入 hotcss, 用于适配
-            const file = fs.readFileSync(`${process.cwd()}\\src\\common\\lib\\hotcss.js`);
-            fileStr = fileStr.replace('</head>', `<script>${file.toString()}</script></head>`);
+            // 加入 hotcss, 用于适配
+            const hotcss = getNodeModule('hotcss');
+            if (hotcss) {
+                fileStr = fileStr.replace('</head>', `<script>${hotcss}</script></head>`);
+            }
 
             chunk.contents = Buffer.from(fileStr);
             this.push(chunk);
@@ -57,6 +66,7 @@ function js() {
         .pipe(gulpBro())
         .pipe(gulpBabel({ presets: ['@babel/env'] }))
         .pipe(gulpUglify())
+        .pipe(gulpRev())
         .pipe(dest('dist'));
 }
 

@@ -27,13 +27,13 @@ function serve(cb) {
 watch(['src/index.scss', 'src/pages/**/*.scss'])
     .on('change', buildReload(sass));
 
-watch(['src/index.html', 'src/pages/**/*.html'])
-    .on('change', buildReload(html));
-
 watch(['src/index.js', 'src/pages/**/*.js'])
     .on('change', buildReload(js));
+
+watch(['src/index.html', 'src/pages/**/*.html'])
+    .on('change', buildReload(html));
 
 watch('src/**/*.@(jpg|png|gif)')
     .on('change', buildReload(images));
 
-exports.default = series(clean, sass, html, js, images, serve);
+exports.default = series(clean, sass, js, html, images, serve);
