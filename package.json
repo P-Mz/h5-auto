@@ -4,18 +4,20 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "gulp --gulpfile ./config/gulp-dev.js --cwd .",
-    "build": "gulp --gulpfile ./config/gulp-prod.js --cwd ."
+    "dev": "cross-env NODE_ENV=development gulp --gulpfile ./config/gulp-dev.js --cwd .",
+    "build": "cross-env NODE_ENV=production gulp --gulpfile ./config/gulp-prod.js --cwd ."
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
     "autoprefixer": "^9.7.2",
+    "cross-env": "^6.0.3",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-bro": "^2.0.0",
     "gulp-connect": "^5.7.0",
+    "gulp-if": "^3.0.0",
     "gulp-postcss": "^8.0.0",
     "gulp-rev": "^9.0.0",
     "gulp-sass": "^4.0.2",

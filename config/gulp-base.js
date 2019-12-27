@@ -12,8 +12,11 @@ const fs = require('fs');
 const postcss = require('gulp-postcss');
 const postcssPxtorem = require('postcss-pxtorem');
 const gulpRev = require('gulp-rev');
+const gulpIf = require('gulp-if');
 const config = require(`${process.cwd()}/config.js`);
 const getNodeModule = require('./lib/get-node-module');
+
+const mode = process.env.NODE_ENV;
 
 // sass 编译
 function sass() {
@@ -23,7 +26,7 @@ function sass() {
             autoprefixer(config.autoprefixerOptions),
             postcssPxtorem(config.postcssOptions)
         ]))
-        .pipe(gulpRev())
+        .pipe(gulpIf(mode === 'production', gulpRev()))
         .pipe(dest('dist'));
 }
 
@@ -66,7 +69,7 @@ function js() {
         .pipe(gulpBro())
         .pipe(gulpBabel({ presets: ['@babel/env'] }))
         .pipe(gulpUglify())
-        .pipe(gulpRev())
+        .pipe(gulpIf(mode === 'production', gulpRev()))
         .pipe(dest('dist'));
 }
 

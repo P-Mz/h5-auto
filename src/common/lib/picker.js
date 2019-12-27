@@ -1,15 +1,18 @@
-
 const $ = require('jquery');
 
-function picker(data, callback) {
+const picker = function (data, callback) {
 
     // 工具方法
     const utils = {
 
+        getArrayData: function (data, num) {
+            return Array.isArray(data[num]) ? utils.getArrayData(data[num], num) : data;
+        },
+
         initValues: function (data) {
             let ret = [];
             data.forEach(function (item, index) {
-                let itemData = Array.isArray(item[0]) ? item[0] : item;
+                let itemData = utils.getArrayData(item, 0);
                 ret.push(itemData[0]);
             });
             return ret;
@@ -90,33 +93,56 @@ function picker(data, callback) {
 
             // 创建元素
             data.forEach(function (item, index) {
-                let itemData = Array.isArray(item[0]) ? item[0] : item;
+                let itemData = utils.getArrayData(item, 0);
                 const pickerCol = utils.renderCol(itemData);
                 pickerCol.style.width = ['100%', '50%', '33.33%'][data.length - 1];
                 cols.push(pickerCol);
+                pickerContent.append(pickerCol);
             });
 
             // 绑定事件
-            cols.forEach(function (item, index) {
-                utils.handlePickerChange(item, function (pickerItemIndex, pickerItemData) {
-                    let nextIndex = index + 1;
-                    if (nextIndex < data.length) {
-                        cols[nextIndex].innerHTML = '';
-                        if (data[nextIndex][pickerItemIndex]) {
-                            let subData = data[nextIndex][pickerItemIndex];
-                            cols[nextIndex].currentIndex = 0;
-                            cols[nextIndex].currentTop = 0;
-                            cols[nextIndex].style.transform = 'translateY(0px)';
-                            utils.renderCol(subData, cols[nextIndex]);
-                            selectValues[nextIndex] = subData[0];
-                        } else {
-                            selectValues.splice(nextIndex, 1);
-                        }
+            if (cols.length > 0) {
+                utils.handlePickerChange(cols[0], function (pickerItemIndex, pickerItemData) {
+                    cols.slice(1, data.length).forEach(function (item) {
+                        item.innerHTML = '';
+                        item.currentIndex = 0;
+                        item.currentTop = 0;
+                        item.style.transform = 'translateY(0px)';
+                    });
+                    selectValues[0] = pickerItemData;
+                    if (cols[1]) {
+                        utils.renderCol(data[1][pickerItemIndex], cols[1]);
+                        selectValues[1] = data[1][pickerItemIndex][0];
                     }
-                    selectValues[index] = pickerItemData;
+                    if (cols[2]) {
+                        utils.renderCol(data[2][pickerItemIndex][0], cols[2]);
+                        selectValues[2] = data[2][pickerItemIndex][0][0];
+                    }
                 });
-                pickerContent.append(item);
-            });
+            }
+
+            if (cols.length > 1) {
+                utils.handlePickerChange(cols[1], function (pickerItemIndex, pickerItemData) {
+                    cols.slice(2, data.length).forEach(function (item) {
+                        item.innerHTML = '';
+                        item.currentIndex = 0;
+                        item.currentTop = 0;
+                        item.style.transform = 'translateY(0px)';
+                    });
+                    selectValues[1] = pickerItemData;
+                    if (cols[2]) {
+                        utils.renderCol(data[2][cols[0].currentIndex][pickerItemIndex], cols[2]);
+                        selectValues[2] = data[2][cols[0].currentIndex][pickerItemIndex][0];
+                    }
+                });
+            }
+
+            if (cols.length > 2) {
+                utils.handlePickerChange(cols[2], function (pickerItemIndex, pickerItemData) {
+                    selectValues[2] = pickerItemData;
+                });
+            }
+
             return pickerContent;
         }
 
@@ -163,4 +189,3 @@ function picker(data, callback) {
 }
 
 module.exports = picker;
-
