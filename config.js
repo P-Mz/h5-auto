@@ -16,6 +16,7 @@ module.exports = {
     },
 
     serverOptions: {
+        host: '0.0.0.0',        // 添加该配置可以使用本机ip访问
         port: 3000,
         root: 'dist',
         livereload: true

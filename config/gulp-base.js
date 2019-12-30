@@ -16,7 +16,7 @@ const gulpIf = require('gulp-if');
 const config = require(`${process.cwd()}/config.js`);
 const getNodeModule = require('./lib/get-node-module');
 
-const mode = process.env.NODE_ENV;
+const isProd = process.env.NODE_ENV === 'production';
 
 // sass 编译
 function sass() {
@@ -26,7 +26,7 @@ function sass() {
             autoprefixer(config.autoprefixerOptions),
             postcssPxtorem(config.postcssOptions)
         ]))
-        .pipe(gulpIf(mode === 'production', gulpRev()))
+        .pipe(gulpIf(isProd, gulpRev()))
         .pipe(dest('dist'));
 }
 
@@ -67,9 +67,9 @@ function html() {
 function js() {
     return src(['src/index.js', 'src/pages/**/*.js'], { base: 'src' })
         .pipe(gulpBro())
-        .pipe(gulpBabel({ presets: ['@babel/env'] }))
-        .pipe(gulpUglify())
-        .pipe(gulpIf(mode === 'production', gulpRev()))
+        .pipe(gulpIf(isProd, gulpBabel({ presets: ['@babel/env'] })))
+        .pipe(gulpIf(isProd, gulpUglify()))
+        .pipe(gulpIf(isProd, gulpRev()))
         .pipe(dest('dist'));
 }
 
